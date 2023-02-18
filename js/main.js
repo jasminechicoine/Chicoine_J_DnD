@@ -25,22 +25,32 @@ function changeBGImage() {
 	// braces is evaluated at runtime and interpolated (replaces the bracket notation)
 
 	// you can use variables, functions, etc inline in your code this way
-	puzzleBoard.style.backgroundImage = `url(images/backGround${this.id}.jpg)`;
+	puzzleBoard.style.backgroundImage = `url(images/backGround${this.id}.jpg)`,
+	puzzleBoard.style.backgroundImage1 = `url(Chicoine_J_DnD-main/images/backGround1${this.id}.jpg)`;
+	
 }
 
 function handleStartDrag() { 
 	// store the element I am currently dragging in that global draggedPiece variable
+	console.log('started dragging this piece:', this);
+
 	draggedPiece = this;
 }
 
-function handleDragOver(e) { e.preventDefault(); }
+function handleDragOver(e) 
+{ e.preventDefault(); }
 
 function handleDrop(e) {
 	// block the default behaviour 
 	e.preventDefault();
 	// and then do whatever you want.
 	console.log('dropped on me!');
-	e.target.appendChild(draggedPiece);
+
+	if (this.childNodes.length > 0) {
+		console.log('Oh no! This drop zone is already occupied!');
+		return false;
+	  }
+	this.appendChild(draggedPiece);
 }
 
 // event handling at the bottom -> how things react when you use the targets
