@@ -1,46 +1,71 @@
-// select your elements first - what is the user going to interact with?
-// there are the targets => these are what the "user" uses
-// this is a 1 to 1 connection to an element in the DOM
-// let navButton = document.querySelector("#navButton");
 
-// this is a 1 to many connection to elements in the DOM
-// the variable name is the "basket"
 let navButtons = document.querySelectorAll('#buttonHolder img'),
 	theHeadline = document.querySelector('#headLine h1'),
-	// collect ALL of the draggable pieces in the drag zone
-	puzzlePieces = document.querySelectorAll('.puzzle-pieces img'),
-	// collect ALL of the drop zone elements
+	puzzlePieces = document.querySelectorAll(".puzzle-pieces img"),
 	dropZones = document.querySelectorAll('.drop-zone'),
 	puzzleBoard = document.querySelector('.puzzle-board'),
-	tempLink = document.querySelector('a'),
-	// set up a global variable to store a reference to the dragged piece
-	// i need to know this later when i drop it on a zone
-	draggedPiece;
+	mainBoard = document.querySelector('.puzzle-pieces'),
 
-// functions go in the middle
-// these are the "actions" that should happen
+	draggedPiece = null;
+
+
 function changeBGImage() {	
-	// change the background image in the drop zone
-	// the `${}` is called a JavaScript Template String - whatever is inside the curly
-	// braces is evaluated at runtime and interpolated (replaces the bracket notation)
+	
+	
+	dropZones.forEach(zone => {
+        while (zone.firstChild) {
+            zone.removeChild(zone.firstChild);
+        }
+	  });
+	  puzzlePieces.forEach(piece => {
+        piece.classList.remove("dropped");
+        mainBoard.appendChild(piece);
+		
+	  });
+	
+	  // Move the puzzle pieces back to the original div
+	  let puzzlePiecesDiv = document.querySelector(".puzzle-pieces");
+	  puzzlePieces.forEach(piece => {
+		if (piece.parentNode.classList.contains("puzzle-board")) {
+		  puzzlePiecesDiv.appendChild(piece);
+		  console.log('you have reset the pieces!'); 
+		}
+	  });
 
-	// you can use variables, functions, etc inline in your code this way
+
 	puzzleBoard.style.backgroundImage = `url(images/backGround${this.id}.jpg)`;
+	
+	
 }
 
 function handleStartDrag() { 
 	// store the element I am currently dragging in that global draggedPiece variable
+	console.log('started dragging this piece:', this);
+
 	draggedPiece = this;
 }
 
-function handleDragOver(e) { e.preventDefault(); }
+function handleDragOver(e) 
+{ event.preventDefault(); 
+
+	if (this.children.length === 0) {
+		this.appendChild(draggedPiece);
+	}
+	console.log('dragged over me');
+}
 
 function handleDrop(e) {
 	// block the default behaviour 
 	e.preventDefault();
 	// and then do whatever you want.
-	console.log('dropped on me!');
-	e.target.appendChild(draggedPiece);
+	console.log('dropped piece!');
+
+	if (this.childNodes.length > 0) {
+		console.log('Oh no! This drop zone is already occupied!');
+		return false;
+	  }
+	
+	  this.appendChild(draggedPiece);
 }
 
 // event handling at the bottom -> how things react when you use the targets
@@ -51,7 +76,7 @@ function handleDrop(e) {
 
 // 1 to many event handling (1 variable, many elements):
 // process a collection of elements and add an event handler to each
-navButtons.forEach(button => button.addEventListener('click', changeBGImage));
+theButtons.forEach(button => button.addEventListener('click', changeBGImage));
 // add the drag start handler to all of the puzzle pieces
 puzzlePieces.forEach(piece => piece.addEventListener('dragstart', handleStartDrag));
 // add the dragover handling to the drop zones

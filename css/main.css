@@ -63,15 +63,15 @@ body {
 }
 
 .drop-zone img { 
-	position: absolute; width: 90% !important;
+	position: absolute; 
+	width: 90% ;
 	float: none;
+	padding: 0;
 }
 
-.tl img { right: 0; bottom: 0; }
-.tr img { left: 0; bottom: 0; }
-
-.bl img { right: 0; top: 0; }
-.br img { left: 0; top: 0; }
+.tl img { right: 0; bottom: 0;}
+.tr img { bottom: 0;}
+.bl img { right: 0; }
 
 
 header {
@@ -85,7 +85,7 @@ header {
 header h1 {
 	font-size: 3.25em;
   letter-spacing: 3px;
-	margin: 10px 0
+	margin: 10px 0;
 }
 
 header p, footer p { font-size: 1.7em; letter-spacing: 2px; margin: 10px 0 }
