@@ -1,4 +1,4 @@
-# Chicoine_J_DnD# Drag and Drop
+#  Drag and Drop
 
 Fixing the two bugs in a Puzzle Drag and Drop game.
 
